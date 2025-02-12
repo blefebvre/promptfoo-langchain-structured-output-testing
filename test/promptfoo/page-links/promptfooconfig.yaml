@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: 'OpenAI Structured Output Example'
+prompts:
+  - 'Analyze the following customer support query, returning valid JSON: "{{query}}"'
+
+providers:
+  - id: azure:chat:gpt-4o
+    config: &structured_output_config
+      #apiHost: set in .env instead
+      apiVersion: 2024-02-15-preview
+      response_format:
+        type: json_object    # Ideally we'd use json_schema which is available in newer models (gpt-4o-2024-08-06 and later)
+        #type: json_schema
+
+tests:
+  - vars:
+      query: "I've been charged twice for my subscription this month. Can you please refund the extra charge?"
+    assert:
+      - type: is-json
+        metric: ValidJSON
+      - type: javascript
+        value: |
+          output.category === 'billing'
+        metric: CategoryAccuracy
+      - type: javascript
+        value: output.sentiment === 'negative'
+        metric: SentimentAccuracy
+      - type: javascript
+        value: parseInt(output.urgency) >= 3
+        metric: UrgencyAccuracy
+
+derivedMetrics:
+  - name: 'OverallAccuracy'
+    value: '(CategoryAccuracy + SentimentAccuracy + UrgencyAccuracy + ActionRelevance + SummaryAccuracy) / 5'
+  - name: 'ResponseQuality'
+    value: '(ValidJSON + OverallAccuracy) / 2'

@@ -1,0 +1,28 @@
+{
+  "name": "promptfoo-langchain-structured-output-testing",
+  "version": "0.0.1",
+  "description": "Example of testing a LangChain app with Promptfoo",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blefebvre/promptfoo-langchain-structured-output-testing.git"
+  },
+  "author": "blefebvre",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/blefebvre/promptfoo-langchain-structured-output-testing/issues"
+  },
+  "homepage": "https://github.com/blefebvre/promptfoo-langchain-structured-output-testing#readme",
+  "dependencies": {
+    "@langchain/core": "^0.3.40",
+    "@langchain/openai": "^0.4.4",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "promptfoo": "^0.104.1"
+  }
+}
